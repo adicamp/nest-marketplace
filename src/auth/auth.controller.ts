@@ -26,20 +26,20 @@ export class AuthController {
   ) {}
 
   @Post('/register')
-  async register(@Body() body: CreateUserDto, @Session() sessien: any) {
+  async register(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.register(
       body.name,
       body.email,
       body.password,
     );
-    sessien.userId = user.id;
+    session.userId = user.id;
     return user;
   }
 
   @Post('/login')
-  async login(@Body() body: LoginUserDto, @Session() sessien: any) {
+  async login(@Body() body: LoginUserDto, @Session() session: any) {
     const user = await this.authService.login(body.email, body.password);
-    sessien.userId = user.id;
+    session.userId = user.id;
     return user;
   }
 

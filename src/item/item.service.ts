@@ -1,4 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Item } from './item.entity';
+import { Repository } from 'typeorm';
+import { CreateItemDto } from './dtos/create-item.dto';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
-export class ItemService {}
+export class ItemService {
+  constructor(
+    @InjectRepository(Item) private itemRepository: Repository<Item>,
+  ) {}
+
+  create(item: CreateItemDto, user: User) {
+    const newItem = this.itemRepository.create(item);
+    newItem.user = user;
+    return this.itemRepository.save(newItem);
+  }
+}
